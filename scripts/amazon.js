@@ -62,8 +62,7 @@ products.forEach((product)=>{
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
 
-    // نصل إلى عنصر الأب الذي يحتوي على الزر والـ select
-    const productContainer = button.closest('.product-container');
+     const productContainer = button.closest('.product-container');
 
     // نحصل على القيمة المختارة من select
     const quantitySelect = productContainer.querySelector('.js-value select');
@@ -93,18 +92,15 @@ products.forEach((product)=>{
       cartQuantity += item.quantity;
     });
 
-    // نعرض الكمية في العنصر المخصص في الواجهة
     document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
 
-    // ✅ عرض الرسالة "Added" لمدة 1.5 ثانية
-
-    // نحصل على العنصر الذي يحتوي على رسالة "Added"
+ 
     const addedMessage = productContainer.querySelector('.added-to-cart');
 
-    // نظهر الرسالة بإضافة كلاس "show"
+    // نظهر الرسالة بإضافة كلاس 
     addedMessage.classList.add('show');
 
-    // نزيل الكلاس بعد 1.5 ثانية لإخفائها
+    // نزيل الكلاسا
     setTimeout(() => {
       addedMessage.classList.remove('show');
     }, 2000);

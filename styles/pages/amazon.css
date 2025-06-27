@@ -137,14 +137,11 @@
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-
-  /* في البداية تكون الرسالة مخفية */
   opacity: 0;
-  transition: opacity 0.4s ease; /* انتقال ناعم عند التغيير */
+  transition: opacity 0.4s ease; 
 }
 
-/* عند إضافة هذا الكلاس من JavaScript، تظهر الرسالة */
-.added-to-cart.show {
+ .added-to-cart.show {
   opacity: 1;
 }
 
