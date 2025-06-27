@@ -1,5 +1,5 @@
 import { cart } from "../data/cart.js";
-
+import { products } from "../data/products.js";
  
 let productHTML = '';
 
@@ -27,7 +27,7 @@ products.forEach((product)=>{
             $${(product.priceCents /100).toFixed(2)}
           </div>
 
-          <div class="product-quantity-container">
+          <div class="product-quantity-container js-value">
             <select>
               <option selected value="1">1</option>
               <option value="2">2</option>
@@ -58,32 +58,58 @@ products.forEach((product)=>{
 
  document.querySelector('.js-products-grid').innerHTML = productHTML ;
 
- document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
-    button.addEventListener('click', ()=> {
-       const productId = button.dataset.productId;
-          let matchingItem ;
-       cart.forEach((item)=>{
-          if( productId === item.productId){
-             matchingItem = item ;
-          }
-       });
-       if(matchingItem){
-        matchingItem.quantity += 1;
-       }else{
-         cart.push({
-          productId : productId ,
-          quantity : 1
-         });
-       }
+ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
 
-        let cartQuantity = 0;
-       cart.forEach((item)=>{
-        cartQuantity += item.quantity
-       });
+    // نصل إلى عنصر الأب الذي يحتوي على الزر والـ select
+    const productContainer = button.closest('.product-container');
 
-       document.querySelector('.js-cart-quantity').innerHTML = cartQuantity ;
+    // نحصل على القيمة المختارة من select
+    const quantitySelect = productContainer.querySelector('.js-value select');
+    const selectedQuantity = parseInt(quantitySelect.value);
 
+    // نبحث إذا كان المنتج موجود مسبقًا في السلة
+    let matchingItem;
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        matchingItem = item;
+      }
     });
+
+    // إذا كان موجود نزيد الكمية، إذا لا نضيفه من جديد
+    if (matchingItem) {
+      matchingItem.quantity += selectedQuantity;
+    } else {
+      cart.push({
+        productId: productId,
+        quantity: selectedQuantity
+      });
+    }
+
+    // نحسب إجمالي كمية المنتجات في السلة
+    let cartQuantity = 0;
+    cart.forEach((item) => {
+      cartQuantity += item.quantity;
+    });
+
+    // نعرض الكمية في العنصر المخصص في الواجهة
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
+    // ✅ عرض الرسالة "Added" لمدة 1.5 ثانية
+
+    // نحصل على العنصر الذي يحتوي على رسالة "Added"
+    const addedMessage = productContainer.querySelector('.added-to-cart');
+
+    // نظهر الرسالة بإضافة كلاس "show"
+    addedMessage.classList.add('show');
+
+    // نزيل الكلاس بعد 1.5 ثانية لإخفائها
+    setTimeout(() => {
+      addedMessage.classList.remove('show');
+    }, 2000);
   });
+});
+
 
   
